@@ -1,7 +1,7 @@
 from flask import *
 from module import form, konek, args, download, ambil_id, hapus
 from werkzeug.utils import secure_filename as sf
-import requests, os, re
+import os, re
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "music"
