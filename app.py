@@ -47,6 +47,11 @@ def upload():
 			upload.save(nama)
 		return render_template("upload.html", pesan="Sukses Upload", type="success")
 
+@app.route("/logout")
+def logout():
+	session.clear()
+	return redirect("/")
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	session.clear()
@@ -55,8 +60,8 @@ def login():
 	elif request.method == "POST":
 		user = form("user")
 		pasw = form("pasw")
-		if user == "admin":
-			if pasw == "ganteng":
+		if user == "billal":
+			if pasw == "xnxx":
 				session["user"] = user
 				session["pasw"] = pasw
 				return redirect("/admin")
@@ -67,7 +72,7 @@ def login():
 
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
-	if session.get("user") == "admin":
+	if session.get("user") == "billal":
 		if request.method == "GET":
 			kon = konek()
 			db = kon.cursor()
@@ -81,6 +86,8 @@ def admin():
 				if action == "delete":
 					hapus(id, kon)
 					return render_template("admin.html", db=db, pesan="Success", type="success")
+				elif action == "edit":
+					return redirect("/admin/edit?id="+id)
 				else:
 					return render_template("admin.html", pesan="ERROR", type="danger", db=db)
 	else:
